@@ -6,7 +6,7 @@ For this assignment you will try your hand at
 * creating an OWL ontology to make inferences about data.
 
 The data can either be a variation of the same Rijksmuseum data you've
-used for past assignments, or a new dataset you come up yourself.
+used for past assignments, or a new dataset you come up with yourself.
 
 You will be editing four files:
 
