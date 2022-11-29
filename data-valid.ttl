@@ -1,0 +1,105 @@
+PREFIX ex: <http://example.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# This is just an example. Replace this file with your own.
+
+ex:cherry a ex:Musician ;
+  rdfs:label "Don Cherry" ;
+  .
+
+ex:coleman a ex:Musician ;
+  rdfs:label "Ornette Coleman" ;
+  .
+
+ex:norris a ex:Musician ;
+  rdfs:label "Walter Norris" ;
+  .
+
+ex:payne a ex:Musician ;
+  rdfs:label "Don Payne" ;
+  .
+
+ex:higgins a ex:Musician ;
+  rdfs:label "Billy Higgins" ;
+  .
+
+ex:haden a ex:Musician ;
+  rdfs:label "Charlie Haden" ;
+  .
+
+ex:bley a ex:Musician ;
+  rdfs:label "Paul Bley" ;
+  .
+
+ex:ocq a ex:MusicGroup ;
+  rdfs:label "Ornette Coleman Quintet" ;
+  ex:leader ex:coleman ;
+  ex:member ex:cherry , ex:norris , ex:payne , ex:higgins ;
+  .
+
+ex:pbq a ex:MusicGroup ;
+  rdfs:label "Paul Bley Quintet" ;
+  ex:leader ex:bley ;
+  ex:member ex:cherry , ex:coleman , ex:haden , ex:higgins ;
+  .
+
+ex:ocq1958a a ex:RecordingSession ;
+  ex:location ex:contemporary ;
+  ex:date "1958-02-10"^^xsd:date , "1958-02-22"^^xsd:date , "1958-03-24"^^xsd:date ;
+  ex:contribution [
+    ex:player ex:coleman ;
+    ex:instrument [ a ex:Sax ] ;
+  ] ;
+  .
+
+ex:ocq1958b a ex:RecordingSession ;
+  ex:location ex:hillcrest ;
+  ex:date "1958-10"^^xsd:gYearMonth , "1958-11"^^xsd:gYearMonth ;
+  ex:contribution [
+    ex:player ex:cherry ;
+    ex:instrument [ a ex:Trumpet ] ;
+  ] ;
+  .
+
+ex:pbq1958a a ex:RecordingSession ;
+  ex:location ex:hillcrest ;
+  ex:date "1958-10"^^xsd:gYearMonth ;
+  ex:contribution [
+    ex:player ex:cherry ;
+    ex:instrument [ a ex:Cornet ] ;
+  ] , [
+    ex:player ex:bley ;
+    ex:instrument [ a ex:Piano ] ;
+  ] ;
+  .
+
+ex:Sax rdfs:subClassOf ex:Instrument .
+ex:Piano rdfs:subClassOf ex:Instrument .
+ex:Cornet rdfs:subClassOf ex:Instrument .
+ex:Trumpet rdfs:subClassOf ex:Instrument .
+
+ex:contemporary a ex:Location ;
+  rdfs:label "Contemporary's Studio" ;
+  ex:locatedIn ex:losangeles ;
+  .
+
+ex:hillcrest a ex:Location ;
+  rdfs:label "Hillcrest Club" ;
+  ex:locatedIn ex:losangeles ;
+  .
+
+ex:losangeles a ex:Location ;
+  rdfs:label "Los Angeles" ;
+  ex:locatedIn ex:california ;
+  .
+
+ex:california a ex:Location ;
+  rdfs:label "California" ;
+  ex:locatedIn ex:usa ;
+  .
+
+ex:usa a ex:Location ;
+  rdfs:label "United States" ;
+  .

@@ -1,0 +1,81 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://example.org/>
+
+<> a owl:Ontology .
+
+# This is just an example. Replace this file with your own.
+
+# CLASSES
+
+ex:Musician a owl:Class .
+
+ex:Trumpeter a owl:Class ;
+  rdfs:subClassOf ex:Musician ;
+  owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty ex:plays ;
+    owl:someValuesFrom ex:Trumpet ;
+  ] ;
+  .
+
+ex:Cornetist a owl:Class ;
+  rdfs:subClassOf ex:Musician ;
+  owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty ex:plays ;
+    owl:someValuesFrom ex:Cornet ;
+  ] ;
+  .
+
+ex:Saxophonist a owl:Class ;
+  rdfs:subClassOf ex:Musician ;
+  owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty ex:plays ;
+    owl:someValuesFrom ex:Sax ;
+  ] ;
+  .
+
+ex:Pianist a owl:Class ;
+  rdfs:subClassOf ex:Musician ;
+  owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty ex:plays ;
+    owl:someValuesFrom ex:Piano ;
+  ] ;
+  .
+
+ex:Contribution a owl:Class .
+
+ex:RecordingSession a owl:Class .
+
+ex:Instrument a owl:Class .
+
+# PROPERTIES
+
+ex:contribution a owl:ObjectProperty ;
+  rdfs:domain ex:RecordingSession ;
+  rdfs:range ex:Contribution ;
+  .
+
+ex:player a owl:ObjectProperty ;
+  rdfs:domain ex:Contribution ;
+  rdfs:range ex:Musician ;
+  .
+
+ex:contributed a owl:ObjectProperty ;
+  owl:inverseOf ex:player ;
+  .
+
+# IF
+# ?musician ex:contributed ?contribution ex:instrument ?instrument .
+# THEN
+# ?musician ex:plays ?instrument .
+ex:plays a owl:ObjectProperty ;
+  owl:propertyChainAxiom  ( ex:contributed  ex:instrument ) ;
+  rdfs:domain ex:Musician ;
+  rdfs:range ex:Instrument ;
+  .

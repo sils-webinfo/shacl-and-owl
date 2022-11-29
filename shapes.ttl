@@ -1,0 +1,56 @@
+PREFIX ex: <http://example.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# This is just an example. Replace this file with your own.
+
+# check that musicians, groups, and locations all have labels
+ex:LabelShape a sh:NodeShape ;
+  sh:targetClass ex:Musician , ex:MusicGroup , ex:Location ;
+  sh:property [
+    a sh:PropertyShape ;
+    sh:path rdfs:label ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:pattern "^[A-Z][^ ]*( [A-Z][^ ]*)*$" ; # every word capitalized
+  ]
+  .
+
+# check the date property of recording sessions
+ex:RecordingSessionShape a sh:NodeShape ;
+  # check all instances of ex:RecordingSession
+  sh:targetClass ex:RecordingSession ;
+  sh:property ex:DateShape ;
+  .
+
+# check the player and instrument properties of contributions
+ex:ContributionShape a sh:NodeShape ;
+  # check all objects of ex:contribution
+  sh:targetObjectsOf ex:contribution ;
+  sh:property ex:PlayerShape , ex:InstrumentShape ;
+  .
+
+# check that dates have proper datatypes
+ex:DateShape a sh:PropertyShape ;
+  sh:path ex:date ;
+  sh:or (
+    [ sh:datatype xsd:date ]
+    [ sh:datatype xsd:gYearMonth ]
+  ) ;
+  .
+
+# check that there is exactly one player and that they are a musician
+ex:PlayerShape a sh:PropertyShape ;
+  sh:path ex:player ;
+  sh:minCount 1 ;
+  sh:maxCount 1 ;
+  sh:class ex:Musician ;
+  .
+
+# check that there is at least one instrument and that it is an instrument
+ex:InstrumentShape a sh:PropertyShape ;
+  sh:path ex:instrument ;
+  sh:minCount 1 ;
+  sh:class ex:Instrument ;
+  .

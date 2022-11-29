@@ -1,0 +1,8 @@
+report-*.ttl
+inferred*.ttl
+all.ttl
+submission.zip
+tools/eye/*
+!tools/eye/Makefile
+tools/jena/*
+!tools/jena/Makefile
