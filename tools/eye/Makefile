@@ -1,7 +1,7 @@
 SHELL := /usr/bin/env bash
 .SHELLFLAGS := -O extglob -c
-EYE_HOST := https://github.com/josd/eye/archive/refs/tags
-EYE_VERSION := 22.1126.0121
+EYE_HOST := https://github.com/eyereasoner/eye/archive/refs/tags
+EYE_VERSION := 8.7.2
 
 .PHONY: all clean
 
