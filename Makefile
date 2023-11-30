@@ -6,7 +6,7 @@ RULES := $(shell find rules -name '*.n3')
 all: submission.zip
 
 clean:
-	rm -f report-*.ttl inferred.ttl inferred-without-ontology.ttl all.ttl
+	rm -f report-*.ttl inferred.ttl inferred-without-ontology.ttl all.ttl *.count
 
 superclean: clean
 	$(MAKE) -s -C tools/eye clean
@@ -51,14 +51,18 @@ $(RULES) data-valid.ttl ontology.ttl \
 all.ttl: data-valid.ttl ontology.ttl inferred.ttl | tools/jena/bin/riot
 	./tools/jena/bin/riot --formatted=ttl $^ > $@
 
+
+%.count: %.ttl
+	./tools/jena/bin/riot --count $< 2> $@
+
 check-results: \
-report-invalid.ttl report-valid.ttl inferred.ttl inferred-without-ontology.ttl
+report-invalid.ttl report-valid.ttl inferred.count inferred-without-ontology.count
 	@[[ $$(./tools/jena/bin/arq --data report-invalid.ttl --query conforms.rq) == "Ask => No" ]] \
 	|| ( printf "\nValidation should have failed, but it did not:\n\n" && cat report-invalid.ttl && exit 1)
 	@[[ $$(./tools/jena/bin/arq --data report-valid.ttl --query conforms.rq) == "Ask => Yes" ]] \
 	|| ( printf "\nValidation failed, but it should not have:\n\n" && cat report-valid.ttl && exit 1)
-	@[[ $$(( $$(./tools/jena/bin/riot --count inferred.ttl 2>&1 | cut -d ' ' -f 5) - \
-	        $$(./tools/jena/bin/riot --count inferred-without-ontology.ttl 2>&1 | cut -d ' ' -f 5) )) > 0 ]] \
+	@[[ $$(( $$(grep -q "Triples" inferred.count && (cat inferred.count | cut -d ' ' -f 5) || echo 0) - \
+	        $$(grep -q "Triples" inferred-without-ontology.count && (cat inferred-without-ontology.count | cut -d ' ' -f 5) || echo 0 ))) > 0 ]] \
 	|| ( printf "\nNo triples were inferred based on your ontology!\n\n" && exit 1 )
 
 submission.zip: \

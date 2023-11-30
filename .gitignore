@@ -1,6 +1,7 @@
 report-*.ttl
 inferred*.ttl
 all.ttl
+*.count
 submission.zip
 tools/eye/*
 !tools/eye/Makefile
